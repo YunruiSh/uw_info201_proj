@@ -1,0 +1,261 @@
+---
+title: "Food Analysis"
+author: 'A2: Yunrui Shao, Sylvia Dou, Amanda Cheng, Steven Lu'
+date: "2/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library("knitr")
+options(knitr.table.format = 'markdown')
+source("data_description.R")
+source("section_3_final.R")
+source("subsection_2.2_final.R")
+```
+
+## Problem Domain Description
+
+Food is one of the most important elements in human life. Our group is interested in food analysis for some specific food and restaurants. **Ramen**, **Wine** and **Michelin restaurants** are the 3 kinds we found the most attractive, and we collected 3 related data sets about their varieties and ratings among different countries. Through analyzing these 3 different types of data sets, we hope to find out the relationship between consumer needs and developments of food cultures around the world.
+
+For **Ramen ratings**, the data set provides us with different brands of ramen, also different tastes, varieties, and types of packaging styles. More importantly, it shows the brands with their original countries and the ratings evaluated by reviewers. These columns of data help us to summarize and compare this data set with others. In addition, we found some data about **Wine reviews** across the world. This data set shows us various types of wines with their descriptions, designations, prices, rating points, and the regions of the wineries where they were made. With all these information, we could easily analyze the wines' characteristics and popularities among different regions. Last but not least, the data set about **Michelin restaurants** with different stars around the world provides us with a relevant price scale, which allows us to compare relationships between prices and numbers of Michelin restaurants in certain countries. In conclusion, with the 3 data sets we found, we can analyze the **food cultures and developments** for different countries around the world, which is very exciting.
+
+### Analysis Questions
+
+**1. Do the countries with more higher stars of Michelin restaurants have better average ratings of wines?** [By Yunrui Shao]\
+By analyzing these questions, we can find out which countries pay more attention on food, and get some views about different countries' food cultures. With our data sets, we could get the ratings for both the Michelin restaurants and wines to answer this question.\
+
+**2. Do countries with more ramen brands have more Michelin restaurants?** [By Sylvia Dou]\
+In our minds, ramen is cheap and convenient, which is totally different from food served in a Michelin restaurant. Thus, it is interesting to see if there is a correlation between these two. We may find out that a country with better ramen-culture development also has more Michelin restaurants. Based on our data sets, we can easily get the number of ramen brands and number of Michelin restaurants, so that we can find out whether the corelation exists or not.\
+
+**3. Does more expensive wine earn higher rating points?** [By Steven Lu]\
+When we want to have a drink, we always hope to get higher quality wine that is also cheap. Although many people blindly believe expensive wine means that it tastes good, we have been interested in the relationship between price and quality. Therefore, we hope to use the wine data set to find out the correlation between price and quality.\
+
+**4. Do countries with more varieties of wine also have more varieties of ramen?** [By Amanda Cheng]\
+As foodies, we always seek for exquisite dishes and new cuisines. By analyzing this question, we can find out if some specific countries are "more creative". Specifically, we can see if we could have the chance to enjoy both ramen and wine when going to those countries, or know which countries to go for first when importing those foods as they might have more flavours. The "variety" columns in both data sets might give us the details that we desire.
+
+## Data Description
+
+We have the following three data sets chosen: Wine Reviews, Ramen Ratings, and Michelin Restaurants.
+
+#### Ramen Ratings
+
+"Ramen Ratings" data set collected over 2500 ramen ratings and was found on Kaggle contributed by the user Aleksey Bilogur. It was originally from "The Ramen Rater", a product review website for the hardcore ramen enthusiastan. The data set we have here is an export of "The Big List" (of reviews) converted into a CSV file.\
+Link to our data set: [https://www.kaggle.com/residentmario/ramen-ratings/data](https://www.kaggle.com/residentmario/ramen-ratings/data)\
+The original [BIG LIST](https://www.theramenrater.com/resources-2/the-list/):  [https://www.theramenrater.com/](https://www.theramenrater.com/)\
+
+A sample of the data set looks like this:
+
+```{r ramen_table, echo=FALSE}
+kable(ramen_sample)
+description_ramen <- "
+- Variety: product name
+- Style: in cup, bowl, tray, pack, etc
+- Stars: ramen quality on a 5-point scale, 1 being the worst and 5 the best
+"
+```
+
+Explanation on the columns: 
+`r description_ramen`
+
+#### Wine Reviews
+
+"Wine Reviews" data set contains 150k wine reviews with variety, location, winery, price and description. It was created by the user zackthoutt on Kaggle. The data was originally scraped from WineEnthusiast during the week of June 15th, 2017. The data set only contains reviews for wines with points >= 80.\
+Link to our data set: [https://www.kaggle.com/zynicide/wine-reviews/data#winemag-data_first150k.csv](https://www.kaggle.com/zynicide/wine-reviews/data#winemag-data_first150k.csv)\
+The original data from WineEnthusiast: [https://www.winemag.com/?s=&drink_type=wine](https://www.winemag.com/?s=&drink_type=wine)
+
+A sample of the data set looks like this:
+
+```{r wine_table, echo = FALSE}
+kable(wine_sample)
+description_wine <- "
+- points: the wine's rating on a scale of 1-100
+- price: cost for a bottle of the wine (USD)
+- variety: the type of grapes used to make the wine
+"
+```
+
+Explanation on the columns:
+`r description_wine`
+
+#### Michelin Restaurants
+
+"Michelin Restaurants" data sets contains information for the Michelin restaurants all over the world, including their stars, locations, prices, etc.  They automatically updates the information originated from the Michelin's Guide.  Since there are three files separating different stars on Kaggle, where we found the data sets, the single data set we have here has already been combined together with an extra column indicating their stars. Note that the data set does not include restaurant information in the following countries: Belgium, France, Germany, Italy, Japan, Luxembourg, Netherlands, Portugal, China, Spain, and Switzerland.\
+Link to our data set(s): [https://www.kaggle.com/jackywang529/michelin-restaurants](https://www.kaggle.com/jackywang529/michelin-restaurants)\
+For the original source of information, visit [The Michelin Guide: https://guide.michelin.com/en/restaurants](https://guide.michelin.com/en/restaurants)
+
+A sample of the data set looks like this:
+
+```{r Michelin_table, echo=FALSE}
+kable(michelin_sample)
+description_Michelin <- "
+- star: The Michelin stars that the restaurant got
+- price: Rated on a scale from 1 to 5 (cheap to expensive)
+"
+```
+
+Explanation on the columns:
+`r description_Michelin`
+
+### Summary Analysis
+
+**Summary for Ramen data set:**\
+
+The _**Stars**_ column denotes the rating for this data set. The range for the rating is from minimum 0 to maximum 5 with the average number of 3.655. Other columns denotes the data set's great diversity. We ignore the NA value.
+
+```{r summary_analysis_ramen, echo=FALSE}
+kable(summary(ramen_df))
+```
+
+```{r summary_analysis_ramen_plot1, echo=FALSE}
+ramen_plot_rating
+Nigeria_rating <- Nigeria_rating
+Canada_rating <- Canada_rating
+Netherlands_rating <- Netherlands_rating
+```
+
+For the first plot about ramen rating, the data for _Nigeria(`r Nigeria_rating`)_ is an outlier that is much lower than the average value. In addition, _Canada(`r Canada_rating`)_ and _Netherlands(`r Netherlands_rating`)_ are also lower than average but just not that much. We won't throw off these outliers since these can reflect some important facts about the relationship between countries' overall development and culture and ramen culture development.
+
+```{r summary_analysis_ramen_plot2, echo=FALSE}
+ramen_plot_num_brand
+USA_num_brand <- USA_num_brand
+Thailand_num_brand <- Thailand_num_brand
+Taiwan_num_brand <- Taiwan_num_brand
+South_Korea_num_brand <- South_Korea_num_brand
+Malaysia_num_brand <- Malaysia_num_brand
+Japan_num_brand <- Japan_num_brand
+China_num_brand <- China_num_brand
+```
+
+For the second plot about number of ramen brands, the data for _USA(`r USA_num_brand`)_, _Thailand(`r Thailand_num_brand`)_, _Taiwan(`r Taiwan_num_brand`)_, _South Korea(`r South_Korea_num_brand`)_, _Malaysia(`r Malaysia_num_brand`)_, _Japan(`r Japan_num_brand`)_, _China(`r China_num_brand`)_ are outliers since they are much higher than the average number of ramen brands. Again, we won't throw off these outliers since these can reflect some important facts about the relationship between countries' overall development and culture and ramen culture development.
+
+
+**Summary for Wine data set:**\
+The _**points**_ column denotes the rating for this data set. The range for the rating is from minimum 80 to maximum 100 with the average number of 87.79. The _**price**_ column denotes the *direct* price of the wines, with minimum 4 and maximum 2300. Other columns denotes the data set's great diversity. We ignore the NA value.
+
+```{r summary_analysis_wine, echo=FALSE}
+kable(summary(wine_df))
+```
+
+```{r summary_analysis_wine_plot, echo=FALSE}
+wine_distribution_plot
+```
+
+For the wine variety distribution over countries, there are quite some significant outliers with particularly low values: they don't have that many of a variety in their wines. Since we are looking for countries with top varieties, we limit the range of distribution here to only show variety counts over 100.  In this case, countries with variety counts under 100: _`r wine_outliers`_, will be our outliers.
+
+
+**Summary for Michelin data set:**\
+The _**star**_ column denotes the star level of the Michelin restarurant. The _**price**_ denotes the *relative* price of cosuming in different restaruants. The range for the relative price is from 1 (31 restaurants) to 5 (73 restaurants), with 1 being the cheapest and 5 being the most expensive. Other columns denotes the data set's great diversity. We ignore the NA value.
+
+```{r summary_analysis_Michelin, echo=FALSE}
+kable(summary(michelin_df))
+```
+
+```{r summary_analysis_michelin_plot1, echo=FALSE}
+country_star_plot
+```
+
+The first plot shows the numbers of different stars of Michelin Restaurants among countries. The outliers could be numbers of star_one restaurants in UK _`r michelin_2.2_outlier1`_ and US _`r michelin_2.2_outlier2`_, but we want to keep all the datas to maintain the consistency.
+
+```{r summary_analysis_michelin_plot2, echo=FALSE}
+star_price_plot
+```
+
+The second plot shows the average consumption among different stars of Michelin restaurants. This plot has no outliers.
+
+## Specific Question Analyses
+
+### Question 1: Do the countries with more higher stars of Michelin restaurants have better average ratings of wines?
+
+**Explanation of the question:**\
+In this question, we compared the ratings(stars) of Michelin restaurants to the ratings of wines. For the Michelin data set, we gave different scale values for different stars (one star: 80, two star: 90, three star: 100), and the average of this became the ratings for certain Michelin restaurant. The average rating of wine is the points of wine. We only compared the existing countries in the data sets.\
+
+**Data analysis method:**\
+We took the average ratings of wines and compared it to the average ratings of Michelin restaurants.\
+
+**Quantitative and Graphical results:**
+```{r question1, echo=FALSE}
+kable(q1_rating_wine_michelin)
+```
+
+Below is the plot:
+
+```{r question1.1, echo = FALSE}
+q1_rating_wine_michelin_plot
+```
+
+**Evaluation:**\
+Comparing the 2 data sets, although it showed a little connection between the 2 ratings, there was not a significant consistency between the 2 sets of data in general. Thus, for answering question 1, we concluded that the countries with more higher stars of Michelin restaurants do not have higher average ratings of wines. However, we could still get some insights from this analysis: local environments may have different effects on these 2 kinds of food cultures. Our guess is that the quality of wine heavily relies on the location of wineries and types of grapes it uses, but the quality of Michelin restaurants is not affected by location that much. Therefore, the average ratings of Michelin restaurants in a country cannot determine its average ratings of wine.
+
+### Question 2: Do countries with more ramen brands have more Michelin restaurants?
+
+**Explanation of the question:**\
+The second question is about ramen ratings and Michelin restaurants data sets. We will compare each country's number of ramen brands and number of Michelin restaurants to analyze the different food developments between convenient and cheap food with formal and expensive food in that country, and find out whether there exists a correlation between these two different food culture developments.
+
+**Data analysis method:**\
+We grouped the two data sets by country names to get the number of ramen brands and Michelin retaurants for each country. 
+
+**Quantitative and Graphical results:**
+
+```{r question2_result, echo=FALSE}
+kable(question2_raw_df)
+```
+
+Below is the plot:
+
+```{r question2_plot, echo=FALSE}
+question2_plot
+```
+
+**Evaluation:**\
+Based on our graph, larger number of ramen brands does not indicate larger number of Michelin restaurants for every country since there are examples like UK which has many Michelin restaurants but not ramen brands. Nevertheless, there are still some interesting facts that we can discuss here. For most countries, the number of ramen brands are more than Michelin restaurants, which can reflect that ramen food culture has developed better than Michelin restaurants, and the consumers in those countries need more ramen brands rather than Michelin restaurants. But like we said before, UK is a very exciting example that the number of Michelin restaurants are 2 times more than the number of ramen brands, which means people in UK prefer more expensive and formal restaurants than ramen. In conclusion, the development of eating habits is based on cultural differences.
+
+### Question 3: Does more expensive wine earn higher rating points?
+
+**Explanation of the question:**\
+The price of the wine is the price of a bottle of a particular wine, and the points were rated by WineEnthusiast on a scale of **0~100**. It is worth noting that WineEnthusiast only includes points that are higher than 80, so the data set only contains wine that have points higher than 80. In this question, we were trying to find whether more expensive wine has an higher average score. 
+
+**Data analysis method:**\
+To find the answer, I compared the average points of wine that have _price lower than 50_ and the average points of wine that have _price between 50 and 100_. I chose these two numbers because the average price of all the wine is **`r q3_average_price`**, but the maximum is **`r q3_max_price`**. Therefore, if we include all the price range, there might be a few outliers, so I decided to restrict the _price range from 0 to 100_. 
+
+**Quantitative and Graphical results:**
+From the data we collected, we found that the average points of wine that have _price lower than 50_ is **`r q3_lower_price_average_points`**, and the average points of wine that have _price between 50 and 100_ is **`r q3_higher_price_average_points`**. We can see that higher price wine has an an average of three points more than lower price wine. Futhermore, the _correlation between prices and points_ is **`r q3_points_price_correlation`**, which indicates that they have some degrees of positive correlations. Then, I took a sample of **1000** wine from the wine data set to make the plot below
+
+```{r question 3, echo = FALSE, warning = FALSE}
+q3_wine_price_points_plot
+```
+
+The points are the samples of wine. The green area represents wines that are cheap and have high quality, and the red area represents wines that are expensive and have low quality. We can also see that the regression line has a positive slope, and there are no significant outliers from our table, which shows that our regression line is pretty accurate.
+
+**Evaluation:**\
+From the graph and the quantitative results, we can conclude that cheaper wine ususally has lower points, and more expensive wine usually has higher points. Also, a lot of the points lie below 50 dollars, and the average price is also below 50 dollars, so we know that most of the wines are pretty cheap. As we said before, it is the best to get cheap wine with high quality. The wine in the green area of the plot are the wines that satisfy this condition, so those are the wines we would want to get. In contrast, the wines in the red area are the ones that we should avoid since they are more expensive but not necessarily better in taste. In conclusion, we think that if someone wants to consistently get high quality wine, then they should choose more expensive wines. On the other hand, if someone wants to try a lot of different wines, then choosing cheaper wines sometimes could get some pretty good wines as well. 
+
+
+### Question 4: Do countries with more varieties of wine also have more varieties of ramen?
+
+**Explanation of the question:**\
+For this question, we will be comparing the number of varieties bewteen ramen and wine within individual countries to see if specific countries are _more creative_.  After exploring the data sets, although both data sets have a **variety** column, we cannot use them to compare the "varieties" of ramen and wine within a country.  The reason is that for ramen, the variety column represents the _product names_ of each kind of ramen, but the variety column for the wine data set represents the _types of grapes_ used to make the wine. A bottle of wine does not only depend on its ingredients but also depends on its winery, region, and many other factors, so counting the number of various types of grapes used does not give us the number of variety of wine in a country. Thus, we will determine the varieties of ramen and wine by **counting the numbers of data points** in each set since each data point represents one kind of ramen or wine.
+
+**Data analysis method:**\
+We grouped each data set by country and counted how many data points there are for each of them. That would give us the numbers of varieties of ramen and wine in each country. We also created separate tables for the top 15 countries with the most varieties for both ramen and wine and rearranged them to see the rank clearly. In addition, since not all countries have data counts for both ramen and wine (they don't have the top varieties of both), we created another data frame that joined both data sets and filtered out countries that have counts for both ramen and wine.\
+
+**Quantitative and Graphical results:**\
+
+The table below shows countries that are the most "creative", which are countries that make both ramen and wine.
+
+```{r creative_countries, echo = FALSE, message = FALSE}
+kable(q4_creative_countries)
+```
+
+The first graph is a world map showing the specific countries that make both ramen and wine (corresponds to the third table displayed above).\
+```{r world, echo = FALSE}
+q4_great_variety_countries
+```
+
+The second bar graph shows the counts of ramen and wine and the relationship between those counts for the most creative countries.\
+```{r bar, echo = FALSE}
+q4_creative_countries_bar
+```
+
+**Evaluation:**\
+From the bar graph, we can see that there is not really a strong correlation between the numbers of variety of wine and ramen. More wine counts does not necessarily mean more ramen counts given a specific country. For instance, countries such as Italy and France may know how to make great wines, but they may not have any idea of how to make ramen. Although there might be another problem that these data could be _biased_ or _incomplete_ as they are ratings from individual reviewers and there might exist many more kinds of wine and ramen that did not get reviewed, we can still conclude that **countries with more varieties of wine do not necessarily have more varieties of ramen** as we believe each country has its specialties. However, from the table and the bar chart, we can see that there are still some countries such as the _USA_ that make a great variety of wines while producing various kinds of ramen. We can say that they are **more creative**, as they know how to make very different types of food, or they might just have **greater resources** to create greater varieties of food. Anyhow, these countries not only provide us the chance to enjoy both wine and ramen when going there, they also give us the direction of which countries to go for first when we want to import those foods at the same time from a specific country.
+
